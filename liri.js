@@ -20,22 +20,33 @@ let command = process.argv[2]
 // Takes parameters for search
 let queryString = process.argv.slice(3).join(' ')
 
-let logEntry = command + ',' + queryString + ',' + moment().format('X') + ','
+
+//Assemebles first half of log Entry so that every comand is tracked even if not data is returned
+let logEntry = command + ',' + queryString + ',' + moment().format('X') + ',';
+
+//Function for updating log that will be called within each command inside the runCommands fucntion
 const update_log = (logEntry, data) => fs.appendFile('log.txt', logEntry + ',' + data, (error) => {
     return error ? log(error) : log('Upadted log')
 })
 
 
-
+//Run commands takes in cli arguments and determines which operation  to execute
 const runCommands = (command, queryString) => {
+
+
     switch (command) {
+
+        // ##Bandisintown
+
         case 'concert-this':
             let concertQueryUrl = 'https://rest.bandsintown.com/artists/' + queryString + '/events?app_id=codingbootcamp'
             axios.get(concertQueryUrl).then((response) => {
                 let data = response.data
+
                 data.forEach((e, i) => {
-                    if (i < 5) {
-                        log(`-`)
+
+                    if (i < 20) {
+                        log(`༼ ºل͟º༼ ºل͟º ༽ºل͟º ༽ºل͟º ༽༼ ºل͟º༼ ºل͟º ༽ºل͟º ༽ºل͟º ༽`)
                         log(`GA TECH Bootcamp presents: `, queryString)
                         log(`Performing at: `, e.venue.name)
                         log(`on: `, moment(e.datetime).format('MM/DD/YYYY'))
@@ -50,10 +61,10 @@ const runCommands = (command, queryString) => {
 
             break;
 
+
+        // ##Spotify 
+
         case 'spotify-this-song':
-            // baseurl and path are present in case Spotify.request is desired
-            let baseurl = 'https://api.spotify.com'
-            let path = '/v1/search?'
             let qParam = queryString
             let type = 'track'
             // https://www.npmjs.com/package/node-spotify-api
@@ -66,18 +77,21 @@ const runCommands = (command, queryString) => {
                 data.tracks.items.forEach((e, i) => {
                     // the r object holds our desired response data
                     let r = {
-                        // Since the artist name is stored in an array the map fucntion iterates the array and returns the value of the name property
+                        // Since the artist name is stored in an array of objects the map fucntion iterates the array and returns the value of the name property
                         artist_name: e.artists.map((x) => x.name),
                         song_name: e.name,
                         album: e.album.name,
                         preview_link: e.preview_url,
                         spotify_link: e.album.external_urls
                     }
+                    var z
+
                     if (i < 10) {
                         log(' ')
                         log(' ')
                         log(`ᕕ(⌐■_■)ᕗ ♪♬`)
                         log(' ')
+                        //iterates and logs all Key Value Pairs for the r object
                         for (z in r) { log(z, r[z]) }
                         log(' ')
                         log(`┐(・。・┐) ♪`)
@@ -88,6 +102,10 @@ const runCommands = (command, queryString) => {
             })
 
             break;
+
+
+        // ##OMDB
+
         case 'movie-this':
             let movieQueryUrl = 'http://www.omdbapi.com/?apikey=trilogy&t=' + queryString
             axios.get(movieQueryUrl).then((response) => {
@@ -115,6 +133,9 @@ const runCommands = (command, queryString) => {
                 })
 
             break;
+
+        // ## reads random.txt and executes 
+
         case 'do-what-it-says':
             fs.readFile('random.txt', 'Utf8', (error, data) => {
                 if (error) { log(error) }

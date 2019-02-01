@@ -2,7 +2,9 @@
 
 ## Language Interpretation and Recognition Interface
 
-CLI that takes passes search queires to Spotify and Bandisintown API returning information based on the issued command as well as 
+CLI that takes passes search queires to Spotify, Bandisintown API, and OMDB and returns data to the CLI:
+
+Video: [![Example Video](Liri-node-app.mov)]( 'Liri-node-app.mov' "Liri-Node-App")
 
 ```
 concert-this 'band name'
