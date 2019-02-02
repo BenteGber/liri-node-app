@@ -4,7 +4,7 @@
 
 CLI that takes passes search queires to Spotify, Bandisintown API, and OMDB and returns data to the CLI:
 
-Video: [![Example Video](Liri-node-app.mov)]( 'Liri-node-app.mov' "Liri-Node-App")
+Video: [![Demo Video](https://youtu.be/gb1coQHU_B0)]( https://youtu.be/gb1coQHU_B0) "Liri-Node-App")
 
 ```
 concert-this 'band name'
